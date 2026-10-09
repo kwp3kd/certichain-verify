@@ -12,14 +12,21 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as MahasiswaRouteImport } from './routes/mahasiswa'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminAktivitasRouteImport } from './routes/admin.aktivitas'
 import { Route as AdminBlockchainRouteImport } from './routes/admin.blockchain'
+import { Route as AdminTambahRouteImport } from './routes/admin.tambah'
 import { Route as AdminVerifikasiRouteImport } from './routes/admin.verifikasi'
+import { Route as MahasiswaIndexRouteImport } from './routes/mahasiswa.index'
+import { Route as MahasiswaProfilRouteImport } from './routes/mahasiswa.profil'
+import { Route as MahasiswaVerifikasiRouteImport } from './routes/mahasiswa.verifikasi'
 import { Route as VerifyIndexRouteImport } from './routes/verify.index'
 import { Route as VerifyIdRouteImport } from './routes/verify.$id'
 import { Route as AdminSertifikatIndexRouteImport } from './routes/admin.sertifikat.index'
 import { Route as AdminSertifikatIdRouteImport } from './routes/admin.sertifikat.$id'
+import { Route as MahasiswaSertifikatIndexRouteImport } from './routes/mahasiswa.sertifikat.index'
+import { Route as MahasiswaSertifikatIdRouteImport } from './routes/mahasiswa.sertifikat.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -34,6 +41,11 @@ const AdminRoute = AdminRouteImport.update({
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MahasiswaRoute = MahasiswaRouteImport.update({
+  id: '/mahasiswa',
+  path: '/mahasiswa',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
@@ -51,10 +63,30 @@ const AdminBlockchainRoute = AdminBlockchainRouteImport.update({
   path: '/blockchain',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminTambahRoute = AdminTambahRouteImport.update({
+  id: '/tambah',
+  path: '/tambah',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminVerifikasiRoute = AdminVerifikasiRouteImport.update({
   id: '/verifikasi',
   path: '/verifikasi',
   getParentRoute: () => AdminRoute,
+} as any)
+const MahasiswaIndexRoute = MahasiswaIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => MahasiswaRoute,
+} as any)
+const MahasiswaProfilRoute = MahasiswaProfilRouteImport.update({
+  id: '/profil',
+  path: '/profil',
+  getParentRoute: () => MahasiswaRoute,
+} as any)
+const MahasiswaVerifikasiRoute = MahasiswaVerifikasiRouteImport.update({
+  id: '/verifikasi',
+  path: '/verifikasi',
+  getParentRoute: () => MahasiswaRoute,
 } as any)
 const VerifyIndexRoute = VerifyIndexRouteImport.update({
   id: '/verify/',
@@ -76,45 +108,76 @@ const AdminSertifikatIdRoute = AdminSertifikatIdRouteImport.update({
   path: '/sertifikat/$id',
   getParentRoute: () => AdminRoute,
 } as any)
+const MahasiswaSertifikatIndexRoute =
+  MahasiswaSertifikatIndexRouteImport.update({
+    id: '/sertifikat/',
+    path: '/sertifikat/',
+    getParentRoute: () => MahasiswaRoute,
+  } as any)
+const MahasiswaSertifikatIdRoute = MahasiswaSertifikatIdRouteImport.update({
+  id: '/sertifikat/$id',
+  path: '/sertifikat/$id',
+  getParentRoute: () => MahasiswaRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/login': typeof LoginRoute
+  '/mahasiswa': typeof MahasiswaRouteWithChildren
   '/admin/aktivitas': typeof AdminAktivitasRoute
   '/admin/blockchain': typeof AdminBlockchainRoute
+  '/admin/tambah': typeof AdminTambahRoute
   '/admin/verifikasi': typeof AdminVerifikasiRoute
+  '/mahasiswa/profil': typeof MahasiswaProfilRoute
+  '/mahasiswa/verifikasi': typeof MahasiswaVerifikasiRoute
   '/verify/$id': typeof VerifyIdRoute
   '/admin/': typeof AdminIndexRoute
+  '/mahasiswa/': typeof MahasiswaIndexRoute
   '/verify/': typeof VerifyIndexRoute
   '/admin/sertifikat/$id': typeof AdminSertifikatIdRoute
+  '/mahasiswa/sertifikat/$id': typeof MahasiswaSertifikatIdRoute
   '/admin/sertifikat/': typeof AdminSertifikatIndexRoute
+  '/mahasiswa/sertifikat/': typeof MahasiswaSertifikatIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/admin/aktivitas': typeof AdminAktivitasRoute
   '/admin/blockchain': typeof AdminBlockchainRoute
+  '/admin/tambah': typeof AdminTambahRoute
   '/admin/verifikasi': typeof AdminVerifikasiRoute
+  '/mahasiswa/profil': typeof MahasiswaProfilRoute
+  '/mahasiswa/verifikasi': typeof MahasiswaVerifikasiRoute
   '/verify/$id': typeof VerifyIdRoute
   '/admin': typeof AdminIndexRoute
+  '/mahasiswa': typeof MahasiswaIndexRoute
   '/verify': typeof VerifyIndexRoute
   '/admin/sertifikat/$id': typeof AdminSertifikatIdRoute
+  '/mahasiswa/sertifikat/$id': typeof MahasiswaSertifikatIdRoute
   '/admin/sertifikat': typeof AdminSertifikatIndexRoute
+  '/mahasiswa/sertifikat': typeof MahasiswaSertifikatIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/login': typeof LoginRoute
+  '/mahasiswa': typeof MahasiswaRouteWithChildren
   '/admin/aktivitas': typeof AdminAktivitasRoute
   '/admin/blockchain': typeof AdminBlockchainRoute
+  '/admin/tambah': typeof AdminTambahRoute
   '/admin/verifikasi': typeof AdminVerifikasiRoute
+  '/mahasiswa/profil': typeof MahasiswaProfilRoute
+  '/mahasiswa/verifikasi': typeof MahasiswaVerifikasiRoute
   '/verify/$id': typeof VerifyIdRoute
   '/admin/': typeof AdminIndexRoute
+  '/mahasiswa/': typeof MahasiswaIndexRoute
   '/verify/': typeof VerifyIndexRoute
   '/admin/sertifikat/$id': typeof AdminSertifikatIdRoute
+  '/mahasiswa/sertifikat/$id': typeof MahasiswaSertifikatIdRoute
   '/admin/sertifikat/': typeof AdminSertifikatIndexRoute
+  '/mahasiswa/sertifikat/': typeof MahasiswaSertifikatIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -122,45 +185,66 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/login'
+    | '/mahasiswa'
     | '/admin/aktivitas'
     | '/admin/blockchain'
+    | '/admin/tambah'
     | '/admin/verifikasi'
+    | '/mahasiswa/profil'
+    | '/mahasiswa/verifikasi'
     | '/verify/$id'
     | '/admin/'
+    | '/mahasiswa/'
     | '/verify/'
     | '/admin/sertifikat/$id'
+    | '/mahasiswa/sertifikat/$id'
     | '/admin/sertifikat/'
+    | '/mahasiswa/sertifikat/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/login'
     | '/admin/aktivitas'
     | '/admin/blockchain'
+    | '/admin/tambah'
     | '/admin/verifikasi'
+    | '/mahasiswa/profil'
+    | '/mahasiswa/verifikasi'
     | '/verify/$id'
     | '/admin'
+    | '/mahasiswa'
     | '/verify'
     | '/admin/sertifikat/$id'
+    | '/mahasiswa/sertifikat/$id'
     | '/admin/sertifikat'
+    | '/mahasiswa/sertifikat'
   id:
     | '__root__'
     | '/'
     | '/admin'
     | '/login'
+    | '/mahasiswa'
     | '/admin/aktivitas'
     | '/admin/blockchain'
+    | '/admin/tambah'
     | '/admin/verifikasi'
+    | '/mahasiswa/profil'
+    | '/mahasiswa/verifikasi'
     | '/verify/$id'
     | '/admin/'
+    | '/mahasiswa/'
     | '/verify/'
     | '/admin/sertifikat/$id'
+    | '/mahasiswa/sertifikat/$id'
     | '/admin/sertifikat/'
+    | '/mahasiswa/sertifikat/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRouteWithChildren
   LoginRoute: typeof LoginRoute
+  MahasiswaRoute: typeof MahasiswaRouteWithChildren
   VerifyIdRoute: typeof VerifyIdRoute
   VerifyIndexRoute: typeof VerifyIndexRoute
 }
@@ -188,6 +272,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/mahasiswa': {
+      id: '/mahasiswa'
+      path: '/mahasiswa'
+      fullPath: '/mahasiswa'
+      preLoaderRoute: typeof MahasiswaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/': {
       id: '/admin/'
       path: '/'
@@ -209,12 +300,40 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminBlockchainRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/tambah': {
+      id: '/admin/tambah'
+      path: '/tambah'
+      fullPath: '/admin/tambah'
+      preLoaderRoute: typeof AdminTambahRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/verifikasi': {
       id: '/admin/verifikasi'
       path: '/verifikasi'
       fullPath: '/admin/verifikasi'
       preLoaderRoute: typeof AdminVerifikasiRouteImport
       parentRoute: typeof AdminRoute
+    }
+    '/mahasiswa/': {
+      id: '/mahasiswa/'
+      path: '/'
+      fullPath: '/mahasiswa/'
+      preLoaderRoute: typeof MahasiswaIndexRouteImport
+      parentRoute: typeof MahasiswaRoute
+    }
+    '/mahasiswa/profil': {
+      id: '/mahasiswa/profil'
+      path: '/profil'
+      fullPath: '/mahasiswa/profil'
+      preLoaderRoute: typeof MahasiswaProfilRouteImport
+      parentRoute: typeof MahasiswaRoute
+    }
+    '/mahasiswa/verifikasi': {
+      id: '/mahasiswa/verifikasi'
+      path: '/verifikasi'
+      fullPath: '/mahasiswa/verifikasi'
+      preLoaderRoute: typeof MahasiswaVerifikasiRouteImport
+      parentRoute: typeof MahasiswaRoute
     }
     '/verify/': {
       id: '/verify/'
@@ -244,12 +363,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminSertifikatIdRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/mahasiswa/sertifikat/': {
+      id: '/mahasiswa/sertifikat/'
+      path: '/sertifikat'
+      fullPath: '/mahasiswa/sertifikat/'
+      preLoaderRoute: typeof MahasiswaSertifikatIndexRouteImport
+      parentRoute: typeof MahasiswaRoute
+    }
+    '/mahasiswa/sertifikat/$id': {
+      id: '/mahasiswa/sertifikat/$id'
+      path: '/sertifikat/$id'
+      fullPath: '/mahasiswa/sertifikat/$id'
+      preLoaderRoute: typeof MahasiswaSertifikatIdRouteImport
+      parentRoute: typeof MahasiswaRoute
+    }
   }
 }
 
 interface AdminRouteChildren {
   AdminAktivitasRoute: typeof AdminAktivitasRoute
   AdminBlockchainRoute: typeof AdminBlockchainRoute
+  AdminTambahRoute: typeof AdminTambahRoute
   AdminVerifikasiRoute: typeof AdminVerifikasiRoute
   AdminIndexRoute: typeof AdminIndexRoute
   AdminSertifikatIdRoute: typeof AdminSertifikatIdRoute
@@ -259,6 +393,7 @@ interface AdminRouteChildren {
 const AdminRouteChildren: AdminRouteChildren = {
   AdminAktivitasRoute: AdminAktivitasRoute,
   AdminBlockchainRoute: AdminBlockchainRoute,
+  AdminTambahRoute: AdminTambahRoute,
   AdminVerifikasiRoute: AdminVerifikasiRoute,
   AdminIndexRoute: AdminIndexRoute,
   AdminSertifikatIdRoute: AdminSertifikatIdRoute,
@@ -267,10 +402,31 @@ const AdminRouteChildren: AdminRouteChildren = {
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
+interface MahasiswaRouteChildren {
+  MahasiswaProfilRoute: typeof MahasiswaProfilRoute
+  MahasiswaVerifikasiRoute: typeof MahasiswaVerifikasiRoute
+  MahasiswaIndexRoute: typeof MahasiswaIndexRoute
+  MahasiswaSertifikatIdRoute: typeof MahasiswaSertifikatIdRoute
+  MahasiswaSertifikatIndexRoute: typeof MahasiswaSertifikatIndexRoute
+}
+
+const MahasiswaRouteChildren: MahasiswaRouteChildren = {
+  MahasiswaProfilRoute: MahasiswaProfilRoute,
+  MahasiswaVerifikasiRoute: MahasiswaVerifikasiRoute,
+  MahasiswaIndexRoute: MahasiswaIndexRoute,
+  MahasiswaSertifikatIdRoute: MahasiswaSertifikatIdRoute,
+  MahasiswaSertifikatIndexRoute: MahasiswaSertifikatIndexRoute,
+}
+
+const MahasiswaRouteWithChildren = MahasiswaRoute._addFileChildren(
+  MahasiswaRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRouteWithChildren,
   LoginRoute: LoginRoute,
+  MahasiswaRoute: MahasiswaRouteWithChildren,
   VerifyIdRoute: VerifyIdRoute,
   VerifyIndexRoute: VerifyIndexRoute,
 }
