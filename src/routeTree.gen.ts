@@ -10,19 +10,51 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as AdminAktivitasRouteImport } from './routes/admin.aktivitas'
+import { Route as AdminBlockchainRouteImport } from './routes/admin.blockchain'
+import { Route as AdminVerifikasiRouteImport } from './routes/admin.verifikasi'
 import { Route as VerifyIndexRouteImport } from './routes/verify.index'
 import { Route as VerifyIdRouteImport } from './routes/verify.$id'
+import { Route as AdminSertifikatIndexRouteImport } from './routes/admin.sertifikat.index'
+import { Route as AdminSertifikatIdRouteImport } from './routes/admin.sertifikat.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAktivitasRoute = AdminAktivitasRouteImport.update({
+  id: '/aktivitas',
+  path: '/aktivitas',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminBlockchainRoute = AdminBlockchainRouteImport.update({
+  id: '/blockchain',
+  path: '/blockchain',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminVerifikasiRoute = AdminVerifikasiRouteImport.update({
+  id: '/verifikasi',
+  path: '/verifikasi',
+  getParentRoute: () => AdminRoute,
 } as any)
 const VerifyIndexRoute = VerifyIndexRouteImport.update({
   id: '/verify/',
@@ -34,36 +66,100 @@ const VerifyIdRoute = VerifyIdRouteImport.update({
   path: '/verify/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminSertifikatIndexRoute = AdminSertifikatIndexRouteImport.update({
+  id: '/sertifikat/',
+  path: '/sertifikat/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSertifikatIdRoute = AdminSertifikatIdRouteImport.update({
+  id: '/sertifikat/$id',
+  path: '/sertifikat/$id',
+  getParentRoute: () => AdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
   '/login': typeof LoginRoute
+  '/admin/aktivitas': typeof AdminAktivitasRoute
+  '/admin/blockchain': typeof AdminBlockchainRoute
+  '/admin/verifikasi': typeof AdminVerifikasiRoute
   '/verify/$id': typeof VerifyIdRoute
+  '/admin/': typeof AdminIndexRoute
   '/verify/': typeof VerifyIndexRoute
+  '/admin/sertifikat/$id': typeof AdminSertifikatIdRoute
+  '/admin/sertifikat/': typeof AdminSertifikatIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
+  '/admin/aktivitas': typeof AdminAktivitasRoute
+  '/admin/blockchain': typeof AdminBlockchainRoute
+  '/admin/verifikasi': typeof AdminVerifikasiRoute
   '/verify/$id': typeof VerifyIdRoute
+  '/admin': typeof AdminIndexRoute
   '/verify': typeof VerifyIndexRoute
+  '/admin/sertifikat/$id': typeof AdminSertifikatIdRoute
+  '/admin/sertifikat': typeof AdminSertifikatIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
   '/login': typeof LoginRoute
+  '/admin/aktivitas': typeof AdminAktivitasRoute
+  '/admin/blockchain': typeof AdminBlockchainRoute
+  '/admin/verifikasi': typeof AdminVerifikasiRoute
   '/verify/$id': typeof VerifyIdRoute
+  '/admin/': typeof AdminIndexRoute
   '/verify/': typeof VerifyIndexRoute
+  '/admin/sertifikat/$id': typeof AdminSertifikatIdRoute
+  '/admin/sertifikat/': typeof AdminSertifikatIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/verify/$id' | '/verify/'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/login'
+    | '/admin/aktivitas'
+    | '/admin/blockchain'
+    | '/admin/verifikasi'
+    | '/verify/$id'
+    | '/admin/'
+    | '/verify/'
+    | '/admin/sertifikat/$id'
+    | '/admin/sertifikat/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/verify/$id' | '/verify'
-  id: '__root__' | '/' | '/login' | '/verify/$id' | '/verify/'
+  to:
+    | '/'
+    | '/login'
+    | '/admin/aktivitas'
+    | '/admin/blockchain'
+    | '/admin/verifikasi'
+    | '/verify/$id'
+    | '/admin'
+    | '/verify'
+    | '/admin/sertifikat/$id'
+    | '/admin/sertifikat'
+  id:
+    | '__root__'
+    | '/'
+    | '/admin'
+    | '/login'
+    | '/admin/aktivitas'
+    | '/admin/blockchain'
+    | '/admin/verifikasi'
+    | '/verify/$id'
+    | '/admin/'
+    | '/verify/'
+    | '/admin/sertifikat/$id'
+    | '/admin/sertifikat/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRouteWithChildren
   LoginRoute: typeof LoginRoute
   VerifyIdRoute: typeof VerifyIdRoute
   VerifyIndexRoute: typeof VerifyIndexRoute
@@ -78,12 +174,47 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/login': {
       id: '/login'
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/aktivitas': {
+      id: '/admin/aktivitas'
+      path: '/aktivitas'
+      fullPath: '/admin/aktivitas'
+      preLoaderRoute: typeof AdminAktivitasRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/blockchain': {
+      id: '/admin/blockchain'
+      path: '/blockchain'
+      fullPath: '/admin/blockchain'
+      preLoaderRoute: typeof AdminBlockchainRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/verifikasi': {
+      id: '/admin/verifikasi'
+      path: '/verifikasi'
+      fullPath: '/admin/verifikasi'
+      preLoaderRoute: typeof AdminVerifikasiRouteImport
+      parentRoute: typeof AdminRoute
     }
     '/verify/': {
       id: '/verify/'
@@ -99,11 +230,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof VerifyIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/sertifikat/': {
+      id: '/admin/sertifikat/'
+      path: '/sertifikat'
+      fullPath: '/admin/sertifikat/'
+      preLoaderRoute: typeof AdminSertifikatIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/sertifikat/$id': {
+      id: '/admin/sertifikat/$id'
+      path: '/sertifikat/$id'
+      fullPath: '/admin/sertifikat/$id'
+      preLoaderRoute: typeof AdminSertifikatIdRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
 
+interface AdminRouteChildren {
+  AdminAktivitasRoute: typeof AdminAktivitasRoute
+  AdminBlockchainRoute: typeof AdminBlockchainRoute
+  AdminVerifikasiRoute: typeof AdminVerifikasiRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+  AdminSertifikatIdRoute: typeof AdminSertifikatIdRoute
+  AdminSertifikatIndexRoute: typeof AdminSertifikatIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminAktivitasRoute: AdminAktivitasRoute,
+  AdminBlockchainRoute: AdminBlockchainRoute,
+  AdminVerifikasiRoute: AdminVerifikasiRoute,
+  AdminIndexRoute: AdminIndexRoute,
+  AdminSertifikatIdRoute: AdminSertifikatIdRoute,
+  AdminSertifikatIndexRoute: AdminSertifikatIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRouteWithChildren,
   LoginRoute: LoginRoute,
   VerifyIdRoute: VerifyIdRoute,
   VerifyIndexRoute: VerifyIndexRoute,
