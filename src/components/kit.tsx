@@ -35,7 +35,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
 export const buttonClass = (variant: keyof typeof variants = "primary", size: keyof typeof sizes = "md", extra = "") =>
   cn("inline-flex items-center justify-center gap-2 rounded-xl transition-colors", variants[variant], sizes[size], extra);
 
-export function Field({ label, error, hint, children, id }: { label: string; error?: string; hint?: string; children: ReactNode; id: string }) {
+export function Field({ label, error, hint, children, id }: { label: string; error?: string | undefined; hint?: string | undefined; children: ReactNode; id: string }) {
   return (
     <div className="space-y-1.5">
       <label htmlFor={id} className="block text-sm font-medium">{label}</label>
@@ -99,7 +99,7 @@ export function ChainBadge({ status }: { status: "RECORDED" | "NOT_RECORDED" }) 
   );
 }
 
-export function StatCard({ label, value, hint, tone = "default", icon }: { label: string; value: ReactNode; hint?: string; tone?: "default" | "verify" | "warn" | "primary"; icon?: ReactNode }) {
+export function StatCard({ label, value, hint, tone = "default", icon }: { label: string; value: ReactNode; hint?: string | undefined; tone?: "default" | "verify" | "warn" | "primary"; icon?: ReactNode }) {
   const toneCls = { default: "text-foreground", verify: "text-verify", warn: "text-warn", primary: "text-primary" }[tone];
   const iconCls = { default: "bg-muted text-foreground", verify: "bg-verify/10 text-verify", warn: "bg-warn/10 text-warn", primary: "bg-primary/10 text-primary" }[tone];
   return (
@@ -149,7 +149,7 @@ export function EmptyState({ title, text, action }: { title: string; text: strin
   );
 }
 
-export function PageHeader({ title, desc, action }: { title: string; desc?: string; action?: ReactNode }) {
+export function PageHeader({ title, desc, action }: { title: string; desc?: string | undefined; action?: ReactNode }) {
   return (
     <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
       <div className="min-w-0">
@@ -161,7 +161,7 @@ export function PageHeader({ title, desc, action }: { title: string; desc?: stri
   );
 }
 
-export function SimNotice({ className }: { className?: string }) {
+export function SimNotice({ className }: { className?: string | undefined }) {
   return (
     <span className={cn("inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary", className)}>
       Simulasi blockchain · bukan jaringan publik

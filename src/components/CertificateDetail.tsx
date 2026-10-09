@@ -7,7 +7,7 @@ import { ChainBadge, EmptyState, StatusBadge, buttonClass } from "./kit";
 import { formatDate } from "@/utils/blockchain";
 import type { ReactNode } from "react";
 
-export function CertificateDetail({ cert, back, actions }: { cert?: Certificate; back: "/admin/sertifikat" | "/mahasiswa/sertifikat"; actions?: ReactNode }) {
+export function CertificateDetail({ cert, back, actions }: { cert?: Certificate | undefined; back: "/admin/sertifikat" | "/mahasiswa/sertifikat"; actions?: ReactNode }) {
   if (!cert)
     return <EmptyState title="Sertifikat tidak ditemukan" text="Sertifikat mungkin sudah dihapus atau kodenya salah." action={<Link to={back} className={buttonClass("ghost")}>Kembali ke daftar</Link>} />;
   return (

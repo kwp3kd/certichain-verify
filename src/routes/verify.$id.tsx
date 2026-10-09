@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { VerifyShell } from "./verify.index";
+import { VerifyShell } from "@/components/VerifyShell";
 
 export const Route = createFileRoute("/verify/$id")({
   head: ({ params }) => ({

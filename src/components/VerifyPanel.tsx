@@ -6,9 +6,9 @@ import { actions, getCertificate, useHydrated } from "@/data/store";
 import { hashFile } from "@/utils/blockchain";
 import type { Certificate } from "@/types";
 
-type Result = { kind: "found"; cert: Certificate; overrideHash?: string } | { kind: "missing"; code: string } | null;
+type Result = { kind: "found"; cert: Certificate; overrideHash?: string | undefined } | { kind: "missing"; code: string } | null;
 
-export function VerifyPanel({ initialCode = "", onNavigate }: { initialCode?: string; onNavigate?: (code: string) => void }) {
+export function VerifyPanel({ initialCode = "", onNavigate }: { initialCode?: string | undefined; onNavigate?: ((code: string) => void) | undefined }) {
   const hydrated = useHydrated();
   const [code, setCode] = useState(initialCode);
   const [error, setError] = useState("");
