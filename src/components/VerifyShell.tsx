@@ -2,7 +2,7 @@ import { useNavigate } from "@tanstack/react-router";
 import { Navbar, Footer } from "@/components/Navbar";
 import { VerifyPanel } from "@/components/VerifyPanel";
 
-export function VerifyShell({ code }: { code?: string }) {
+export function VerifyShell({ code }: { code?: string | undefined }) {
   const navigate = useNavigate();
   return (
     <div className="min-h-screen">
@@ -15,7 +15,7 @@ export function VerifyShell({ code }: { code?: string }) {
         <VerifyPanel
           key={code ?? "new"}
           initialCode={code}
-          onNavigate={(c) => (c ? navigate({ to: "/verify/$id", params: { id: c } }) : undefined)}
+          onNavigate={(c) => { if (c) void navigate({ to: "/verify/$id", params: { id: c } }); }}
         />
         <p className="mt-8 text-center text-xs text-muted-foreground">Coba kode demo: <span className="font-mono">SRT-2026-0001</span> (valid) atau <span className="font-mono">SRT-2026-0003</span> (tidak sesuai).</p>
       </main>

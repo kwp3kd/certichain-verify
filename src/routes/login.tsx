@@ -32,7 +32,7 @@ function Login() {
   const [role, setRole] = useState<Role>(search.role ?? "admin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [errors, setErrors] = useState<Partial<Record<string, string>>>({});
   const [loading, setLoading] = useState(false);
 
   const fill = () => {
@@ -82,13 +82,13 @@ function Login() {
           </div>
 
           <form onSubmit={submit} noValidate className="mt-6 space-y-4">
-            <Field id="email" label="Email kampus" error={errors.email}>
-              <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} aria-invalid={!!errors.email} autoComplete="username" />
+            <Field id="email" label="Email kampus" error={errors["email"]}>
+              <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} aria-invalid={!!errors["email"]} autoComplete="username" />
             </Field>
-            <Field id="password" label="Kata sandi" error={errors.password}>
-              <Input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} aria-invalid={!!errors.password} autoComplete="current-password" />
+            <Field id="password" label="Kata sandi" error={errors["password"]}>
+              <Input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} aria-invalid={!!errors["password"]} autoComplete="current-password" />
             </Field>
-            {errors.form && <p role="alert" className="rounded-xl bg-warn/10 p-3 text-sm font-medium text-warn">{errors.form}</p>}
+            {errors["form"] && <p role="alert" className="rounded-xl bg-warn/10 p-3 text-sm font-medium text-warn">{errors["form"]}</p>}
             <Button type="submit" size="lg" className="w-full" disabled={loading}>{loading ? "Memproses…" : "Masuk"}</Button>
           </form>
 

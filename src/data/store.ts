@@ -79,7 +79,7 @@ export const actions = {
     state = {
       ...state,
       activities: [
-        { id: crypto.randomUUID(), message: `${id} diverifikasi — ${ok ? "valid" : "tidak sesuai"}`, at: new Date().toISOString().slice(0, 16).replace("T", " "), kind: ok ? "verify" : "warn" },
+        { id: crypto.randomUUID(), message: `${id} diverifikasi — ${ok ? "valid" : "tidak sesuai"}`, at: new Date().toISOString().slice(0, 16).replace("T", " "), kind: (ok ? "verify" : "warn") as Activity["kind"] },
         ...state.activities,
       ].slice(0, 50),
     };

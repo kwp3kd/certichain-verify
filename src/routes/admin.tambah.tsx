@@ -49,7 +49,7 @@ function Wizard() {
     organizer: "BEM " + UNIVERSITY, eventDate: today, issuedAt: today,
   });
   const [file, setFile] = useState<File | null>(null);
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [errors, setErrors] = useState<Partial<Record<string, string>>>({});
   const [hash, setHash] = useState("");
   const [record, setRecord] = useState<MockRecord | null>(null);
   const [busy, setBusy] = useState(false);
@@ -59,10 +59,10 @@ function Wizard() {
   const next0 = async () => {
     const r = schema.safeParse({ ...form, id: form.id.toUpperCase() });
     const errs: Record<string, string> = r.success ? {} : Object.fromEntries(r.error.issues.map((i) => [i.path[0], i.message]));
-    if (existing.includes(form.id.toUpperCase())) errs.id = "ID ini sudah digunakan. Gunakan ID lain.";
-    if (!file) errs.file = "Unggah file sertifikat PDF.";
-    else if (file.type !== "application/pdf") errs.file = "File harus berformat PDF.";
-    else if (file.size > 10 * 1024 * 1024) errs.file = "Ukuran file maksimal 10 MB.";
+    if (existing.includes(form.id.toUpperCase())) errs["id"] = "ID ini sudah digunakan. Gunakan ID lain.";
+    if (!file) errs["file"] = "Unggah file sertifikat PDF.";
+    else if (file.type !== "application/pdf") errs["file"] = "File harus berformat PDF.";
+    else if (file.size > 10 * 1024 * 1024) errs["file"] = "Ukuran file maksimal 10 MB.";
     setErrors(errs);
     if (Object.keys(errs).length) return;
     setBusy(true);
@@ -96,17 +96,17 @@ function Wizard() {
         {step === 0 && (
           <div className="mt-6 space-y-4">
             <div className="grid gap-4 sm:grid-cols-2">
-              <Field id="id" label="ID / kode sertifikat" error={errors.id}><Input id="id" value={form.id} onChange={set("id")} className="font-mono uppercase" aria-invalid={!!errors.id} /></Field>
+              <Field id="id" label="ID / kode sertifikat" error={errors["id"]}><Input id="id" value={form.id} onChange={set("id")} className="font-mono uppercase" aria-invalid={!!errors["id"]} /></Field>
               <Field id="type" label="Jenis kegiatan"><Select id="type" value={form.activityType} onChange={set("activityType")}>{ACTIVITY_TYPES.map((t) => <option key={t}>{t}</option>)}</Select></Field>
-              <Field id="name" label="Nama penerima" error={errors.studentName}><Input id="name" value={form.studentName} onChange={set("studentName")} aria-invalid={!!errors.studentName} /></Field>
-              <Field id="nim" label="NIM" error={errors.studentNim}><Input id="nim" inputMode="numeric" value={form.studentNim} onChange={set("studentNim")} aria-invalid={!!errors.studentNim} /></Field>
-              <div className="sm:col-span-2"><Field id="act" label="Nama kegiatan" error={errors.activityName}><Input id="act" value={form.activityName} onChange={set("activityName")} aria-invalid={!!errors.activityName} placeholder="Contoh: Seminar Keamanan Data Nasional" /></Field></div>
-              <div className="sm:col-span-2"><Field id="org" label="Penyelenggara" error={errors.organizer}><Input id="org" value={form.organizer} onChange={set("organizer")} aria-invalid={!!errors.organizer} /></Field></div>
-              <Field id="ed" label="Tanggal kegiatan" error={errors.eventDate}><Input id="ed" type="date" value={form.eventDate} onChange={set("eventDate")} /></Field>
-              <Field id="ia" label="Tanggal penerbitan" error={errors.issuedAt}><Input id="ia" type="date" value={form.issuedAt} onChange={set("issuedAt")} /></Field>
+              <Field id="name" label="Nama penerima" error={errors["studentName"]}><Input id="name" value={form.studentName} onChange={set("studentName")} aria-invalid={!!errors["studentName"]} /></Field>
+              <Field id="nim" label="NIM" error={errors["studentNim"]}><Input id="nim" inputMode="numeric" value={form.studentNim} onChange={set("studentNim")} aria-invalid={!!errors["studentNim"]} /></Field>
+              <div className="sm:col-span-2"><Field id="act" label="Nama kegiatan" error={errors["activityName"]}><Input id="act" value={form.activityName} onChange={set("activityName")} aria-invalid={!!errors["activityName"]} placeholder="Contoh: Seminar Keamanan Data Nasional" /></Field></div>
+              <div className="sm:col-span-2"><Field id="org" label="Penyelenggara" error={errors["organizer"]}><Input id="org" value={form.organizer} onChange={set("organizer")} aria-invalid={!!errors["organizer"]} /></Field></div>
+              <Field id="ed" label="Tanggal kegiatan" error={errors["eventDate"]}><Input id="ed" type="date" value={form.eventDate} onChange={set("eventDate")} /></Field>
+              <Field id="ia" label="Tanggal penerbitan" error={errors["issuedAt"]}><Input id="ia" type="date" value={form.issuedAt} onChange={set("issuedAt")} /></Field>
             </div>
-            <Field id="file" label="File sertifikat (PDF)" error={errors.file} hint="Maksimal 10 MB. File hanya dihitung sidik jarinya, tidak dicatat ke blockchain.">
-              <label htmlFor="file" className={cn("flex cursor-pointer items-center gap-3 rounded-xl border-2 border-dashed p-4 text-sm hover:bg-glass", errors.file ? "border-warn" : "border-border")}>
+            <Field id="file" label="File sertifikat (PDF)" error={errors["file"]} hint="Maksimal 10 MB. File hanya dihitung sidik jarinya, tidak dicatat ke blockchain.">
+              <label htmlFor="file" className={cn("flex cursor-pointer items-center gap-3 rounded-xl border-2 border-dashed p-4 text-sm hover:bg-glass", errors["file"] ? "border-warn" : "border-border")}>
                 <FileUp className="size-5 text-primary" aria-hidden />
                 <span className="min-w-0 truncate">{file ? file.name : "Pilih atau tarik file PDF ke sini"}</span>
               </label>

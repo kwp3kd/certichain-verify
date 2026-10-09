@@ -14,7 +14,7 @@ export function HashCompare({ a, b }: { a: string; b: string }) {
   );
 }
 
-export function VerificationResult({ cert, overrideHash }: { cert: Certificate; overrideHash?: string }) {
+export function VerificationResult({ cert, overrideHash }: { cert: Certificate; overrideHash?: string | undefined }) {
   const fileHash = overrideHash ?? cert.fileHash;
   const ok = fileHash === cert.blockchainHash && cert.blockchainStatus === "RECORDED";
   const shown = { ...cert, fileHash };
