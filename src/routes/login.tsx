@@ -9,7 +9,7 @@ import type { Role } from "@/types";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/login")({
-  validateSearch: (s: Record<string, unknown>): { role?: Role } => ({ role: s.role === "mahasiswa" ? "mahasiswa" : s.role === "admin" ? "admin" : undefined }),
+  validateSearch: (s: Record<string, unknown>): { role?: Role | undefined } => ({ role: s["role"] === "mahasiswa" ? "mahasiswa" : s["role"] === "admin" ? "admin" : undefined }),
   head: () => ({
     meta: [
       { title: "Login — Sahabat" },
