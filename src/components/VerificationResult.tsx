@@ -1,7 +1,32 @@
-import { CheckCircle2, AlertTriangle, SearchX } from "lucide-react";
+import { CheckCircle2, AlertTriangle, SearchX, Award } from "lucide-react";
 import type { Certificate } from "@/types";
 import { formatDate } from "@/utils/blockchain";
 import { BlockchainInfo } from "./BlockchainInfo";
+
+function CertificatePreview({ cert }: { cert: Certificate }) {
+  return (
+    <div className="glass-card overflow-hidden" aria-label="Pratinjau sertifikat">
+      <div className="border-b border-border bg-primary/5 px-6 py-3 text-center text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+        Sertifikat Kegiatan
+      </div>
+      <div className="p-6 text-center sm:p-8">
+        <span className="mx-auto grid size-12 place-items-center rounded-2xl bg-primary/10 text-primary"><Award className="size-6" aria-hidden /></span>
+        <p className="mt-4 text-xs uppercase tracking-[0.15em] text-muted-foreground">Diberikan kepada</p>
+        <p className="mt-1 font-display text-2xl font-bold tracking-tight sm:text-3xl">{cert.studentName}</p>
+        <p className="mt-1 font-mono text-xs text-muted-foreground">NIM {cert.studentNim}</p>
+        <p className="mt-4 text-sm text-muted-foreground">Atas partisipasinya dalam kegiatan</p>
+        <p className="mt-1 font-display text-lg font-semibold">{cert.activityName}</p>
+        <p className="mt-1 text-sm text-muted-foreground">
+          {cert.activityType} · {cert.organizer} · {formatDate(cert.eventDate)}
+        </p>
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-1 border-t border-border pt-4 text-xs text-muted-foreground">
+          <span>ID <span className="font-mono text-primary">{cert.id}</span></span>
+          <span>Diterbitkan {formatDate(cert.issuedAt)}</span>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export function HashCompare({ a, b }: { a: string; b: string }) {
   const ok = a === b;
