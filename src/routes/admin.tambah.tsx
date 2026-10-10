@@ -39,8 +39,9 @@ function Stepper({ step }: { step: number }) {
 }
 
 function Wizard() {
-  const count = useStore((s) => s.certificates.length);
-  const existing = useStore((s) => s.certificates.map((c) => c.id));
+  const certificates = useStore((s) => s.certificates);
+  const count = certificates.length;
+  const existing = certificates.map((c) => c.id);
   const today = new Date().toISOString().slice(0, 10);
   const [step, setStep] = useState(0);
   const [form, setForm] = useState<Form>({
