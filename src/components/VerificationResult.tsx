@@ -79,6 +79,7 @@ export function VerificationResult({ cert, overrideHash }: { cert: Certificate; 
           ))}
         </dl>
       </div>
+      {ok && <CertificatePreview cert={cert} />}
       <HashCompare a={fileHash} b={cert.blockchainHash} />
       <BlockchainInfo cert={shown} title="Detail verifikasi" />
     </div>
