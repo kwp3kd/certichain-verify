@@ -14,16 +14,138 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      activities: {
+        Row: {
+          at: string
+          id: string
+          kind: string
+          message: string
+        }
+        Insert: {
+          at?: string
+          id?: string
+          kind: string
+          message: string
+        }
+        Update: {
+          at?: string
+          id?: string
+          kind?: string
+          message?: string
+        }
+        Relationships: []
+      }
+      certificates: {
+        Row: {
+          activity_name: string
+          activity_type: string
+          block_number: number | null
+          created_at: string
+          event_date: string
+          file_hash: string
+          file_path: string
+          id: string
+          issued_at: string
+          issuer_id: string
+          issuer_wallet: string | null
+          organizer: string
+          public_token: string
+          recipient_email: string
+          recorded_at: string | null
+          student_name: string
+          student_nim: string
+          transaction_id: string | null
+        }
+        Insert: {
+          activity_name: string
+          activity_type: string
+          block_number?: number | null
+          created_at?: string
+          event_date: string
+          file_hash: string
+          file_path: string
+          id: string
+          issued_at: string
+          issuer_id: string
+          issuer_wallet?: string | null
+          organizer: string
+          public_token?: string
+          recipient_email: string
+          recorded_at?: string | null
+          student_name: string
+          student_nim: string
+          transaction_id?: string | null
+        }
+        Update: {
+          activity_name?: string
+          activity_type?: string
+          block_number?: number | null
+          created_at?: string
+          event_date?: string
+          file_hash?: string
+          file_path?: string
+          id?: string
+          issued_at?: string
+          issuer_id?: string
+          issuer_wallet?: string | null
+          organizer?: string
+          public_token?: string
+          recipient_email?: string
+          recorded_at?: string | null
+          student_name?: string
+          student_nim?: string
+          transaction_id?: string | null
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          id: string
+          name: string
+          nim: string
+        }
+        Insert: {
+          id: string
+          name?: string
+          nim?: string
+        }
+        Update: {
+          id?: string
+          name?: string
+          nim?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "mahasiswa"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +272,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "mahasiswa"],
+    },
   },
 } as const
