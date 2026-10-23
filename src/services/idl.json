@@ -1,0 +1,34 @@
+{
+  "address": "",
+  "metadata": { "name": "sertifikat", "version": "0.1.0", "spec": "0.1.0" },
+  "instructions": [
+    {
+      "name": "record_certificate",
+      "discriminator_seed": "global:record_certificate",
+      "accounts": [
+        { "name": "certificate", "writable": true, "pda": { "seeds": [{ "kind": "const", "value": "certificate" }, { "kind": "arg", "path": "certificate_id" }] } },
+        { "name": "issuer", "writable": true, "signer": true },
+        { "name": "system_program", "address": "11111111111111111111111111111111" }
+      ],
+      "args": [
+        { "name": "certificate_id", "type": "string" },
+        { "name": "file_hash", "type": "string" }
+      ]
+    }
+  ],
+  "accounts": [{ "name": "CertificateRecord", "discriminator_seed": "account:CertificateRecord" }],
+  "types": [
+    {
+      "name": "CertificateRecord",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          { "name": "certificate_id", "type": "string" },
+          { "name": "file_hash", "type": "string" },
+          { "name": "issuer", "type": "pubkey" },
+          { "name": "timestamp", "type": "i64" }
+        ]
+      }
+    }
+  ]
+}

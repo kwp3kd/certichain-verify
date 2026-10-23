@@ -103,16 +103,19 @@ export type Database = {
           id: string
           name: string
           nim: string
+          wallet: string | null
         }
         Insert: {
           id: string
           name?: string
           nim?: string
+          wallet?: string | null
         }
         Update: {
           id?: string
           name?: string
           nim?: string
+          wallet?: string | null
         }
         Relationships: []
       }
@@ -136,12 +139,38 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_public_certificate: {
+        Args: { _id: string }
+        Returns: {
+          activity_name: string
+          activity_type: string
+          block_number: number
+          event_date: string
+          file_hash: string
+          id: string
+          issued_at: string
+          issuer_wallet: string
+          organizer: string
+          recorded_at: string
+          student_name: string
+          student_nim_masked: string
+          transaction_id: string
+        }[]
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
           _user_id: string
         }
         Returns: boolean
+      }
+      public_stats: {
+        Args: never
+        Returns: {
+          activities: number
+          recorded: number
+          total: number
+        }[]
       }
     }
     Enums: {
