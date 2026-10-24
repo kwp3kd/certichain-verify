@@ -8,6 +8,7 @@ export type Certificate = {
   eventDate: string;
   issuedAt: string;
   fileHash: string;
+  /** Hash pembanding: dari akun blockchain, atau dari database saat mode simulasi. */
   blockchainHash: string;
   transactionId: string;
   blockNumber: number;
@@ -15,6 +16,8 @@ export type Certificate = {
   timestamp: string;
   verificationStatus: "VALID" | "INVALID";
   blockchainStatus: "RECORDED" | "NOT_RECORDED";
+  recipientEmail?: string;
+  filePath?: string;
 };
 
 export type Activity = {
@@ -26,4 +29,4 @@ export type Activity = {
 
 export type Role = "admin" | "mahasiswa";
 
-export type Session = { role: Role; name: string; nim?: string };
+export type Session = { userId: string; email: string; role: Role; name: string; nim?: string; wallet?: string | null; pendingAdmin?: boolean };
