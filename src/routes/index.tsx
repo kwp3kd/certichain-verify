@@ -3,7 +3,8 @@ import { FileText, Fingerprint, Link2, QrCode, ShieldCheck, Lock, Clock, Buildin
 import { Navbar, Footer } from "@/components/Navbar";
 import { SimNotice, buttonClass } from "@/components/kit";
 import { QRCode } from "@/components/QRCode";
-import { useStore } from "@/data/store";
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -33,9 +34,13 @@ const benefits = [
 ];
 
 function Landing() {
-  const certs = useStore((s) => s.certificates);
-  const valid = certs.filter((c) => c.verificationStatus === "VALID").length;
-  const activities = new Set(certs.map((c) => c.activityName)).size;
+  const [stats, setStats] = useState({ total: 0, recorded: 0, activities: 0 });
+  useEffect(() => {
+    supabase.rpc("public_stats").then(({ data }) => {
+      const r = Array.isArray(data) ? data[0] : null;
+      if (r) setStats({ total: Number(r.total), recorded: Number(r.recorded), activities: Number(r.activities) });
+    }, () => {});
+  }, []);
 
   return (
     <div className="min-h-screen">
@@ -55,9 +60,9 @@ function Landing() {
               <Link to="/login" className={buttonClass("ghost", "lg")}>Login</Link>
             </div>
             <div className="mt-10 grid grid-cols-3 gap-6 border-t border-border pt-6">
-              <div><div className="font-display text-3xl font-semibold">{certs.length}</div><div className="text-sm text-muted-foreground">Sertifikat</div></div>
-              <div><div className="font-display text-3xl font-semibold text-verify">{valid}</div><div className="text-sm text-muted-foreground">Terverifikasi</div></div>
-              <div><div className="font-display text-3xl font-semibold">{activities}</div><div className="text-sm text-muted-foreground">Kegiatan</div></div>
+              <div><div className="font-display text-3xl font-semibold">{stats.total}</div><div className="text-sm text-muted-foreground">Sertifikat</div></div>
+              <div><div className="font-display text-3xl font-semibold text-verify">{stats.recorded}</div><div className="text-sm text-muted-foreground">Tercatat on-chain</div></div>
+              <div><div className="font-display text-3xl font-semibold">{stats.activities}</div><div className="text-sm text-muted-foreground">Kegiatan</div></div>
             </div>
           </div>
 
