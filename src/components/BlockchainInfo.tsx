@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ChevronDown, Copy, Check } from "lucide-react";
 import type { Certificate } from "@/types";
+import { explorerTx } from "@/config/env";
 import { cn } from "@/lib/utils";
 
 function Row({ label, value, help, mono = true }: { label: string; value: string; help?: string; mono?: boolean }) {
@@ -53,14 +54,21 @@ export function BlockchainInfo({ cert, defaultOpen = false, title = "Detail tekn
       {open && (
         <div className="divide-y divide-border border-t border-border px-4">
           <Row label="Certificate Hash" help="Sidik jari file sertifikat" value={cert.fileHash} />
-          <Row label="Hash Blockchain" help="Sidik jari yang tercatat" value={cert.blockchainHash} />
+          <Row label="Hash tercatat" help="Sidik jari yang tercatat" value={cert.blockchainHash || "—"} />
           <Row label="Hasil pencocokan" mono={false} value={match ? "✓ Kedua sidik jari sama persis" : "✕ Sidik jari berbeda — isi sertifikat kemungkinan berubah"} />
-          <Row label="Status Blockchain" mono={false} value={cert.blockchainStatus === "RECORDED" ? "Tercatat (simulasi)" : "Belum tercatat"} />
-          <Row label="Transaction ID" value={cert.transactionId} />
-          <Row label="Block Number" value={String(cert.blockNumber)} />
-          <Row label="Timestamp" value={cert.timestamp} />
-          <Row label="Wallet penerbit" value={cert.issuerWallet} />
-          <p className="py-3 text-xs text-muted-foreground">Data di atas adalah simulasi untuk prototype dan bukan transaksi blockchain sungguhan.</p>
+          <Row label="Status Blockchain" mono={false} value={cert.blockchainStatus === "RECORDED" ? "Tercatat di Solana Devnet" : "Belum tercatat di blockchain"} />
+          {cert.transactionId ? (
+            <>
+              <Row label="Transaction ID" value={cert.transactionId} />
+              <Row label="Slot (block)" value={String(cert.blockNumber)} />
+              <Row label="Timestamp" value={cert.timestamp} />
+              <p className="py-3 text-sm"><a href={explorerTx(cert.transactionId)} target="_blank" rel="noreferrer" className="font-medium text-primary hover:underline">Lihat transaksi di Solana Explorer (Devnet) ↗</a></p>
+            </>
+          ) : (
+            <p className="py-3 text-xs text-muted-foreground">Belum ada transaksi blockchain untuk sertifikat ini, sehingga tidak ada Transaction ID yang ditampilkan.</p>
+          )}
+          {cert.issuerWallet && <Row label="Wallet penerbit" value={cert.issuerWallet} />}
+          <p className="py-3 text-xs text-muted-foreground">Blockchain hanya menyimpan ID sertifikat, sidik jari file, alamat wallet penerbit, dan waktu — tanpa nama, NIM, atau file.</p>
         </div>
       )}
     </div>
