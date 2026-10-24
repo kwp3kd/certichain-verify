@@ -1,8 +1,6 @@
-import { useMemo } from "react";
 import { useStore } from "./store";
 
+/** Sertifikat milik mahasiswa yang login (sudah disaring oleh izin database berdasarkan email penerima). */
 export function useMyCertificates() {
-  const nim = useStore((s) => s.session?.nim);
-  const all = useStore((s) => s.certificates);
-  return useMemo(() => all.filter((c) => c.studentNim === nim), [all, nim]);
+  return useStore((s) => s.certificates);
 }
