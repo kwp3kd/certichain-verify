@@ -17,9 +17,9 @@ function Page() {
       <CertificateDetail cert={cert} back="/admin/sertifikat" actions={<Button variant="ghost" onClick={() => setConfirm(true)}><Trash2 className="size-4" /> Hapus</Button>} />
       <Modal open={confirm} onClose={() => setConfirm(false)} title="Hapus sertifikat?" footer={<>
         <Button variant="ghost" onClick={() => setConfirm(false)}>Batal</Button>
-        <Button variant="danger" onClick={() => { actions.deleteCertificate(id); navigate({ to: "/admin/sertifikat" }); }}>Ya, hapus</Button>
+        <Button variant="danger" onClick={async () => { if (await actions.deleteCertificate(id)) navigate({ to: "/admin/sertifikat" }); else alert("Layanan sedang tidak tersedia. Silakan coba lagi."); }}>Ya, hapus</Button>
       </>}>
-        Sertifikat <span className="font-mono">{id}</span> akan dihapus dari daftar prototype ini. Tindakan ini tidak dapat dibatalkan.
+        Sertifikat <span className="font-mono">{id}</span> akan dihapus dari daftar dan penyimpanan. Catatan di blockchain (jika ada) tidak dapat dihapus. Tindakan ini tidak dapat dibatalkan.
       </Modal>
     </div>
   );

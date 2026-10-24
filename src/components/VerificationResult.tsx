@@ -2,6 +2,8 @@ import { CheckCircle2, AlertTriangle, SearchX, Award } from "lucide-react";
 import type { Certificate } from "@/types";
 import { formatDate } from "@/utils/blockchain";
 import { BlockchainInfo } from "./BlockchainInfo";
+import { AIExplanation } from "./AIExplanation";
+import { compareHashes } from "@/services/hash";
 
 function CertificatePreview({ cert }: { cert: Certificate }) {
   return (
@@ -28,20 +30,23 @@ function CertificatePreview({ cert }: { cert: Certificate }) {
   );
 }
 
-export function HashCompare({ a, b }: { a: string; b: string }) {
-  const ok = a === b;
+export function HashCompare({ a, b, source = "chain" }: { a: string; b: string; source?: HashSource }) {
+  const ok = compareHashes(a, b);
   return (
     <div className="glass-inset grid gap-2 p-4 font-mono text-xs" aria-label="Perbandingan sidik jari">
       <p className="text-muted-foreground">Hash Sertifikat → <span className="text-foreground">{a.slice(0, 20)}…</span></p>
-      <p className="text-muted-foreground">Hash Blockchain → <span className="text-foreground">{b.slice(0, 20)}…</span></p>
-      <p className={ok ? "font-semibold text-verify" : "font-semibold text-warn"}>{ok ? "= sama · ✓ VALID" : "≠ berbeda · ✕ TIDAK SESUAI"}</p>
+      <p className="text-muted-foreground">{source === "chain" ? "Hash Blockchain" : "Hash tercatat (database)"} → <span className="text-foreground">{b ? `${b.slice(0, 20)}…` : "tidak ada"}</span></p>
+      <p className={ok ? "font-semibold text-verify" : "font-semibold text-warn"}>{ok ? "= sama · ✓ VALID" : "≠ berbeda · ✕ Sertifikat tidak sesuai dengan catatan tersimpan."}</p>
     </div>
   );
 }
 
-export function VerificationResult({ cert, overrideHash }: { cert: Certificate; overrideHash?: string | undefined }) {
+export type HashSource = "chain" | "database";
+
+export function VerificationResult({ cert, overrideHash, source = "database", notice }: { cert: Certificate; overrideHash?: string | undefined; source?: HashSource; notice?: string | undefined }) {
   const fileHash = overrideHash ?? cert.fileHash;
-  const ok = fileHash === cert.blockchainHash && cert.blockchainStatus === "RECORDED";
+  // Keputusan HANYA dari perbandingan hash.
+  const ok = compareHashes(fileHash, cert.blockchainHash);
   const shown = { ...cert, fileHash };
   return (
     <div className="space-y-4 animate-rise" aria-live="polite">
@@ -79,8 +84,10 @@ export function VerificationResult({ cert, overrideHash }: { cert: Certificate; 
           ))}
         </dl>
       </div>
+      {notice && <p role="note" className="rounded-xl bg-warn/10 p-3 text-sm font-medium text-warn">{notice}</p>}
       {ok && <CertificatePreview cert={cert} />}
-      <HashCompare a={fileHash} b={cert.blockchainHash} />
+      <AIExplanation status={ok ? "VALID" : "INVALID"} activityName={cert.activityName} source={source} />
+      <HashCompare a={fileHash} b={cert.blockchainHash} source={source} />
       <BlockchainInfo cert={shown} title="Detail verifikasi" />
     </div>
   );

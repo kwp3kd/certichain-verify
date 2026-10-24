@@ -1,3 +1,4 @@
+import { env } from "@/config/env";
 import { forwardRef, useEffect, useId, type ButtonHTMLAttributes, type InputHTMLAttributes, type ReactNode, type SelectHTMLAttributes } from "react";
 import { CheckCircle2, AlertTriangle, Search as SearchIcon, X, Inbox } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -162,9 +163,15 @@ export function PageHeader({ title, desc, action }: { title: string; desc?: stri
 }
 
 export function SimNotice({ className }: { className?: string | undefined }) {
+  if (!env.isBlockchainMock)
+    return (
+      <span className={cn("inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary", className)}>
+        Terhubung ke smart contract · Solana Devnet
+      </span>
+    );
   return (
-    <span className={cn("inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary", className)}>
-      Simulasi blockchain · bukan jaringan publik
+    <span role="note" className={cn("inline-flex items-center gap-2 rounded-full bg-warn/10 px-3 py-1 text-xs font-medium text-warn", className)}>
+      Mode Simulasi — smart contract belum terhubung
     </span>
   );
 }
